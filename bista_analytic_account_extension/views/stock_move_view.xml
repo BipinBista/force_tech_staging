@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Inherited stock move line form view-->
+    <record id="view_move_line_form_inherit_bista_analytic_account_extension" model="ir.ui.view">
+        <field name="name">stock.move.line.form</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group/field[@name='location_dest_id']" position="after">
+                <field name="project_tag" attrs="{'invisible': [('picking_code', '=', 'outgoing')]}"/>
+                <field name="project_tag_sale_ref" attrs="{'invisible': [('picking_code', '=', 'incoming')]}"/>
+                <field name="picking_code" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Inherited stock move search view-->
+    <record id="view_move_search_inherit_bista_analytic_account_extension" model="ir.ui.view">
+        <field name="name">stock.move.search</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="project_tag_sale_ref" string="Project Tag Sale" filter_domain="[('project_tag_sale_ref','ilike', self)]"/>
+                <field name="project_tag" string="Project Tag Purchase" filter_domain="[('project_tag','ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Inherited stock move line view-->
+    <record id="stock_move_line_view_search_inherit_bista_analytic_account_extension" model="ir.ui.view">
+        <field name="name">stock.move.line.search</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.stock_move_line_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="project_tag_sale_ref" string="Project Tag Sale" filter_domain="[('project_tag_sale_ref','ilike', self)]"/>
+                <field name="project_tag" string="Project Tag Purchase" filter_domain="[('project_tag','ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

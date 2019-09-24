@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <template id="report_lot_series_label_doc">
+            <div class="page">
+                <div class="row">
+                    <table style="page-break-after: always;">
+                        <tr>
+                            <td style="padding:0; margin:0; vertical-align: top; width:500px;">
+                              <center><img src="bista_analytic_account_extension/static/src/img/forcetech_logo.png" style="width: 70%;"/></center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Lot Serial:</span>
+                            </td>
+                            <td style="text-aligh:left;">
+                                <h4 style="text-aligh:left;">
+                                <strong><span t-esc="product.name"/></strong></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span t-esc="product.product_id.name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span t-esc="product.product_qty"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    </template>
+    <template id="report_pickinglabel">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="picking">
+                <t t-call="bista_analytic_account_extension.report_stock_picking_label">
+                    <t t-set="pick" t-value="picking"/>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="report_lot_label">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="product">
+                <t t-call="bista_analytic_account_extension.report_lot_series_label_doc"/>
+            </t>
+        </t>
+    </template>
+
+
+    <report 
+        id="action_report_product_label"
+        string="Lot Serial Label"
+        model="stock.production.lot"
+        report_type="qweb-pdf"
+        file="bista_analytic_account_extension.report_lot_label" 
+        name="bista_analytic_account_extension.report_lot_label"
+        print_report_name="'%s' % (object.name)"
+    />
+
+    <record id="action_report_product_label" model="ir.actions.report">
+        <field name="paperformat_id" ref="bista_analytic_account_extension.paperformat_lot_serial_label"/>
+        <field name="multi">False</field>
+    </record>
+</odoo>

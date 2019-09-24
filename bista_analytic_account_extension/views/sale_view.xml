@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Inherited sale order form view-->
+    <record id="view_order_form_inherit_bista_analytic_account_extension" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group/field[@name='payment_term_id']" position="after">
+                <field name="project_tag"/>
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="after">
+                <button type="object"
+                       name="action_view_move_lines"
+                       class="oe_stat_button"
+                       icon="fa-list"
+                       attrs="{'invisible': [('count_move_lines', '=', 0)]}">
+                       <field name="count_move_lines" widget="statinfo" string="Move Lines"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
